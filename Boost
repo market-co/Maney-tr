@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!-- saved from url=(0024)login.php -->
+<html lang="en" class="isPWA">
+
+<head>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width,initial-scale=0.9,maximum-scale=0.9,viewport-fit=cover">
+  <title>Login</title>
+  <link rel="stylesheet" type="text/css" href="./assets/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="./assets/style-r.css">
+  <!-- <link href="./assets/css2" rel="stylesheet"> -->
+  <link rel="stylesheet" type="text/css" href="./assets/fontawesome-all.min.css">
+  <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
+  <link rel="apple-touch-icon" href="assets/icon-512x512.png">
+  <link rel="stylesheet" href="./assets/all.min.css" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="assets/sweetalert2.min.css">
+  <script src="assets/sweetalert2.min.js"></script>
+</head>
+
+<div class="menu-hider"></div>
+
+<body class="theme-light">
+  <div id="preloader" class="preloader-hide">
+    <div class="spinner-border color-highlight" role="status"></div>
+  </div>
+
+  <div id="page" data-swup="0" class="device-is-ios">
+    <div class="page-content pb-0">
+      <div class="card rounded-0 mb-0" data-card-height="cover-full" style="height: 996px;">
+        <div class="card-center text-center">
+          <div class="text-center mb-4">
+            <a href="/"><img src="assets/logo-light.svg" style="max-height:120px;" class="mb-1"></a>
+            <h3 class="font-30 font-800 pb-2"><span class="gradient-darkgreen p-2 mx-1 color-white d-inline-block rounded-s border-0">EasilyMoney</span></h3>
+            <div class="text-center">
+              <h1 class="font-28 color-dark">Sign In</h1>
+              <p class="font-600 color-green-dark mb-1 font-16">Let's Start Earning!</p>
+            </div>
+          </div>
+          <form method="POST" action="login.php" id="login-form">
+            <input type="hidden" name="_token" value="qj3Y6gc8nDummCy9PNIO8PhJvzfawQrZDIfXg1WH">
+            <div class="ms-3 me-4 mb-2">
+              <div class="input-style no-borders no-icon validate-field mb-4">
+                <input type="text" name="email" class="form-control validate-name" id="email" placeholder="email" value="" autocomplete="on" required="">
+                <label for="form1a" class="color-green-dark">email</label>
+                <i class="fa fa-times disabled invalid color-red-dark"></i>
+                <i class="fa fa-check disabled valid color-green-dark"></i>
+                <em class="font-12">(required)</em>
+              </div>
+
+              <div class="input-style no-borders no-icon validate-field mb-4 input-style-active">
+                <input type="password" class="form-control validate-password" id="password" name="password" placeholder="············" aria-describedby="password" autocomplete="on">
+                <label for="form1ab" class="color-green-dark">Password</label>
+                <i class="fa fa-times disabled invalid color-red-dark"></i>
+                <i class="fa fa-check valid color-green-dark"></i>
+                <em class="font-12 disabled">(required)</em>
+              </div>
+
+              <div class="clearfix"></div>
+              <div class="form-check icon-check text-start float-start opacity-50">
+                <input class="form-check-input" type="checkbox" value="" id="check4">
+                <label class="form-check-label font-14 font-600" for="check4">Remember Me</label>
+                <i class="icon-check-1 far fa-circle color-gray-dark font-14"></i>
+                <i class="icon-check-2 fa fa-check-circle font-14 color-green-dark"></i>
+              </div>
+              <a href="reset.php" class="font-14 font-600 float-end color-theme opacity-30">Forgot Password?</a>
+              <div class="clearfix"></div>
+            </div>
+
+
+            <button type="button" onclick="submitForm(this)" class="btn btn-center-l gradient-darkgreen rounded-sm btn-l font-13 font-600 mt-4 border-0">Sign In</button>
+          </form>
+          <div class="text-center">
+            <h5 class="mt-4"> Don't have an account? <a href="register.php">Sign up</a></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="assets/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/bootstrap.min.js"></script>
+  <script type="text/javascript" src="assets/custom.js?"></script>
+  <script type="text/javascript">
+    function submitForm() {
+      let email = $("#email").val()
+      let password = $("#password").val()
+      let emailReg = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+      if (!emailReg.test(email)) {
+        Swal.fire({
+          icon: 'error',
+          text: 'Please enter the correct Email!',
+        });
+      } else if (!password) {
+        Swal.fire({
+          icon: 'error',
+          text: 'Please input a password!',
+        });
+      } else if (password.length < 6) {
+        Swal.fire({
+          icon: 'error',
+          text: 'Password must be at least 6 characters!',
+        });
+      } else {
+        $.post("api.php?act=login", {
+          email: email,
+          password: password
+        }, function(result) {
+          if (result.code == 1) {
+            window.location.href = "./dashboard.php"
+          } else {
+            Swal.fire({
+              icon: 'error',
+              text: result.message,
+            });
+          }
+
+        });
+      }
+    }
+  </script>
+
+  <p class="offline-message bg-red-dark color-white">No internet connection detected</p>
+  <p class="online-message bg-green-dark color-white">You are back online</p>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"9be349f699554c419b0060b32d31f8c7","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+
+</html>
